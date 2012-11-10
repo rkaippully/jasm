@@ -1,5 +1,9 @@
 # JASM - Java Assembler
 
+[![Build Status](https://secure.travis-ci.org/rkaippully/jasm.png?branch=master)](https://travis-ci.org/rkaippully/jasm)
+
+## About
+
 *JASM is an assembler for the Java virtual machine.*
 
 ## License
