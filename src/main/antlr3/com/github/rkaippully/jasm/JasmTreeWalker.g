@@ -32,6 +32,8 @@ import java.io.IOException;
 import java.io.FileOutputStream;
 import java.lang.reflect.Method;
 
+import org.objectweb.asm.Attribute;
+import org.objectweb.asm.ByteVector;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
@@ -81,9 +83,9 @@ jasmHeader returns [String className]
 		clazzSpec=classSpec
 		superClassName=superSpec
 		implClassNames=implementsSpec?
-		classAttributes?
+		signature=classAttributes?
 	{
-		cw.visit(version, $clazzSpec.access, $clazzSpec.className, null, superClassName, implClassNames);
+		cw.visit(version, $clazzSpec.access, $clazzSpec.className, signature, superClassName, implClassNames);
 		$className = $clazzSpec.className;
 	}
 	;
@@ -250,21 +252,25 @@ methodDescriptor returns [String desc]
 
 /**
  * Attributes that can appear in the attributes table of a ClassFile structure.
+ * Returns the value of signature attribute if found, else null
  */
-classAttributes
+classAttributes returns [String signature]
 	:	ATTRIBUTES_DIRECTIVE
-		classAttribute*
+		(s=classAttribute
+			{
+				if (s != null)
+					signature = s;
+			}
+		)*
 		END_ATTRIBUTES_DIRECTIVE
 	;
 
-classAttribute
-	:	(SOURCE_FILE_DIRECTIVE sourceFileName=STRING_LITERAL
+classAttribute returns [String signature]
+	:	SOURCE_FILE_DIRECTIVE sourceFileName=STRING_LITERAL
 			{   cw.visitSource($sourceFileName.text, null);   }	
-		)
-	|	(DEBUG_DIRECTIVE debug=STRING_LITERAL
+	|	DEBUG_DIRECTIVE debug=STRING_LITERAL
 			{   cw.visitSource(null, $debug.text);   }	
-		)
-	|	(INNER_CLASS_DIRECTIVE
+	|	INNER_CLASS_DIRECTIVE
 			{
 				int access = 0;
 			}
@@ -277,8 +283,7 @@ classAttribute
 			{
 				cw.visitInnerClass(name, null, null, access);
 			}
-		)
-	|	(INNER_CLASS_DIRECTIVE
+	|	INNER_CLASS_DIRECTIVE
 			{
 				int access = 0;
 			}
@@ -291,12 +296,26 @@ classAttribute
 			{
 				cw.visitInnerClass(name, outerName, innerName, access);
 			}
-		)
-	|	(ENCLOSING_METHOD_DIRECTIVE outerClass=className outerMethod=methodName desc=methodDescriptor
+	|	ENCLOSING_METHOD_DIRECTIVE outerClass=className outerMethod=methodName desc=methodDescriptor
 			{
 				cw.visitOuterClass(outerClass, outerMethod, desc);
 			}
-		)
+	|	SYNTHETIC_DIRECTIVE
+			{
+				cw.visitAttribute(new Attribute("Synthetic"){
+					@Override
+					protected ByteVector write(final ClassWriter cw, final byte[] code,
+							final int len, final int maxStack, final int maxLocals) {
+        				ByteVector v = new ByteVector();
+        				v.putUTF8(this.type);
+        				return v;
+    				}
+				});
+			}
+	|	SIGNATURE_DIRECTIVE s=STRING_LITERAL
+			{
+				signature = $s.text;
+			}
 	;
 
 /**

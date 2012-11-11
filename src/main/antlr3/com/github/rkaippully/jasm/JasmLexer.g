@@ -138,62 +138,6 @@ STRING_LITERAL
     }
     ;
 
-OF
-	:	'of'
-	;
-
-PUBLIC
-	:	'public'
-	;
-
-PRIVATE
-	:	'private'
-	;
-
-PROTECTED
-	:	'protected'
-	;
-
-STATIC
-	:	'static'
-	;
-
-FINAL
-	:	'final'
-	;
-
-SUPER
-	:	'super'
-	;
-
-INTERFACE
-	:	'interface'
-	;
-
-ABSTRACT
-	:	'abstract'
-	;
-
-VOLATILE
-	:	'volatile'
-	;
-
-TRANSIENT
-	:	'transient'
-	;
-
-SYNTHETIC
-	:	'synthetic'
-	;
-
-ANNOTATION
-	:	'annotation'
-	;
-
-ENUM
-	:	'enum'
-	;
-
 CLASS_VERSION_DIRECTIVE
 	:	'.classversion'
 	;
@@ -248,6 +192,70 @@ INNER_CLASS_DIRECTIVE
 
 ENCLOSING_METHOD_DIRECTIVE
 	:	'.enclosingmethod'
+	;
+
+SYNTHETIC_DIRECTIVE
+	:	'.synthetic'
+	;
+
+SIGNATURE_DIRECTIVE
+	:	'.signature'
+	;
+
+OF
+	:	'of'
+	;
+
+PUBLIC
+	:	'public'
+	;
+
+PRIVATE
+	:	'private'
+	;
+
+PROTECTED
+	:	'protected'
+	;
+
+STATIC
+	:	'static'
+	;
+
+FINAL
+	:	'final'
+	;
+
+SUPER
+	:	'super'
+	;
+
+INTERFACE
+	:	'interface'
+	;
+
+ABSTRACT
+	:	'abstract'
+	;
+
+VOLATILE
+	:	'volatile'
+	;
+
+TRANSIENT
+	:	'transient'
+	;
+
+SYNTHETIC
+	:	'synthetic'
+	;
+
+ANNOTATION
+	:	'annotation'
+	;
+
+ENUM
+	:	'enum'
 	;
 
 IDENTIFIER

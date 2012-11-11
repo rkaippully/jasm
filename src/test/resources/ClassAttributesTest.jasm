@@ -36,4 +36,6 @@
 	.innerclass  final "com/github/rkaippully/jasm/test/gen/ClassAttributesTest$InnerClass3"
 
 	.enclosingmethod "com/github/rkaippully/jasm/test/gen/ClassAttributesTestOuter" "enclosingMethod" "V"
+	.synthetic
+	.signature   "<E:Ljava/lang/Object;>Ljava/lang/Object;"
 .endattributes

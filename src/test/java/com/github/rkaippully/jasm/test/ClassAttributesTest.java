@@ -145,4 +145,43 @@ public class ClassAttributesTest {
 			}
 		}, 0);
 	}
+
+	@Test
+	public void testSynthetic() {
+		reader.accept(new ClassVisitor(ASM4) {
+			static final int ACC_SYNTHETIC_ATTRIBUTE = 0x40000;
+			private boolean synthetic;
+
+			@Override
+			public void visit(int version, int access, String name, String signature,
+		            String superName, String[] interfaces) {
+				// This is how ASM reports synthetic attribute
+				if ((access & ACC_SYNTHETIC_ATTRIBUTE) != 0)
+					this.synthetic = true;
+			}
+
+			@Override
+			public void visitEnd() {
+				assertTrue(synthetic);
+			}
+		}, 0);
+	}
+
+	@Test
+	public void testSignature() {
+		reader.accept(new ClassVisitor(ASM4) {
+			private String signature;
+
+			@Override
+			public void visit(int version, int access, String name, String signature,
+		            String superName, String[] interfaces) {
+				this.signature = signature;
+			}
+
+			@Override
+			public void visitEnd() {
+				assertEquals("<E:Ljava/lang/Object;>Ljava/lang/Object;", signature);
+			}
+		}, 0);
+	}
 }

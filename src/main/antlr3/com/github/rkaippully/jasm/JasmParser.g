@@ -162,11 +162,13 @@ classAttributes
 	;
 
 classAttribute
-	:	(SOURCE_FILE_DIRECTIVE STRING_LITERAL)
-		|	(DEBUG_DIRECTIVE STRING_LITERAL)
-		|	(INNER_CLASS_DIRECTIVE innerClassAccessSpec* className)
-		|	(INNER_CLASS_DIRECTIVE innerClassAccessSpec* simpleClassName EQUALS className (OF className)?)
-		|	(ENCLOSING_METHOD_DIRECTIVE className methodName methodDescriptor)
+	:	SOURCE_FILE_DIRECTIVE STRING_LITERAL
+		|	DEBUG_DIRECTIVE STRING_LITERAL
+		|	INNER_CLASS_DIRECTIVE innerClassAccessSpec* className
+		|	INNER_CLASS_DIRECTIVE innerClassAccessSpec* simpleClassName EQUALS className (OF className)?
+		|	ENCLOSING_METHOD_DIRECTIVE className methodName methodDescriptor
+		|	SYNTHETIC_DIRECTIVE
+		|	SIGNATURE_DIRECTIVE STRING_LITERAL
 	;
 
 /**
