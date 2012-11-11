@@ -35,9 +35,9 @@ public class ClassHeaderTest {
 	@BeforeClass
 	public static void assembleClassFile() throws Exception {
 		Assembler assembler = new Assembler();
-		assembler.assemble("src/test/resources/ClassHeaderTestGen.jasm");
+		assembler.assemble("src/test/resources/ClassHeaderTest.jasm");
 
-		reader = new ClassReader("com/github/rkaippully/jasm/test/gen/ClassHeaderTestGen");
+		reader = new ClassReader("com/github/rkaippully/jasm/test/gen/ClassHeaderTest");
 	}
 
 	@Test
@@ -47,7 +47,7 @@ public class ClassHeaderTest {
 
 	@Test
 	public void testClassName() {
-		assertEquals("com/github/rkaippully/jasm/test/gen/ClassHeaderTestGen",
+		assertEquals("com/github/rkaippully/jasm/test/gen/ClassHeaderTest",
 				reader.getClassName());
 	}
 

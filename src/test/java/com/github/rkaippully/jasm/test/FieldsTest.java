@@ -37,9 +37,9 @@ public class FieldsTest {
 	@BeforeClass
 	public static void assembleClassFile() throws Exception {
 		Assembler assembler = new Assembler();
-		assembler.assemble("src/test/resources/FieldsTestGen.jasm");
+		assembler.assemble("src/test/resources/FieldsTest.jasm");
 
-		reader = new ClassReader("com/github/rkaippully/jasm/test/gen/FieldsTestGen");
+		reader = new ClassReader("com/github/rkaippully/jasm/test/gen/FieldsTest");
 	}
 
 	@Test

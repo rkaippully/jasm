@@ -16,6 +16,6 @@
 
 .classversion 51 0
 
-.class public super "com/github/rkaippully/jasm/test/gen/ClassHeaderTestGen"
+.class public super "com/github/rkaippully/jasm/test/gen/ClassHeaderTest"
 .super "java/lang/Object"
 .implements "java/io/Serializable" "java/io/Externalizable"

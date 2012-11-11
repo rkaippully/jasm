@@ -40,10 +40,10 @@ public class ClassAttributesTest {
 	@BeforeClass
 	public static void assembleClassFile() throws Exception {
 		Assembler assembler = new Assembler();
-		assembler.assemble("src/test/resources/ClassAttributesTestGen.jasm");
+		assembler.assemble("src/test/resources/ClassAttributesTest.jasm");
 
 		reader = new ClassReader(
-				"com/github/rkaippully/jasm/test/gen/ClassAttributesTestGen");
+				"com/github/rkaippully/jasm/test/gen/ClassAttributesTest");
 	}
 
 	@Test
@@ -62,7 +62,7 @@ public class ClassAttributesTest {
 			public void visitEnd() {
 				// We need this outside visitSource() because visitSource() may
 				// not get called if source and debug are null
-				assertEquals("ClassAttributesTestGen.jasm", source);
+				assertEquals("ClassAttributesTest.jasm", source);
 				assertEquals("SMAP\n*E\n", debug);
 			}
 		}, 0);
@@ -103,19 +103,19 @@ public class ClassAttributesTest {
 				Iterator<InnerClassInfo> itr = innerClasses.iterator();
 
 				InnerClassInfo innerClass = itr.next();
-				assertEquals("com/github/rkaippully/jasm/test/gen/ClassAttributesTestGen$InnerClass1", innerClass.name);
-				assertEquals("com/github/rkaippully/jasm/test/gen/ClassAttributesTestGen", innerClass.outerName);
+				assertEquals("com/github/rkaippully/jasm/test/gen/ClassAttributesTest$InnerClass1", innerClass.name);
+				assertEquals("com/github/rkaippully/jasm/test/gen/ClassAttributesTest", innerClass.outerName);
 				assertEquals("InnerClass1", innerClass.innerName);
 				assertEquals(ACC_PROTECTED | ACC_STATIC, innerClass.access);
 
 				innerClass = itr.next();
-				assertEquals("com/github/rkaippully/jasm/test/gen/ClassAttributesTestGen$InnerClass2", innerClass.name);
+				assertEquals("com/github/rkaippully/jasm/test/gen/ClassAttributesTest$InnerClass2", innerClass.name);
 				assertNull(innerClass.outerName);
 				assertEquals("InnerClass2", innerClass.innerName);
 				assertEquals(ACC_FINAL, innerClass.access);
 
 				innerClass = itr.next();
-				assertEquals("com/github/rkaippully/jasm/test/gen/ClassAttributesTestGen$InnerClass3", innerClass.name);
+				assertEquals("com/github/rkaippully/jasm/test/gen/ClassAttributesTest$InnerClass3", innerClass.name);
 				assertNull(innerClass.outerName);
 				assertNull(innerClass.innerName);
 				assertEquals(ACC_FINAL, innerClass.access);
@@ -139,7 +139,7 @@ public class ClassAttributesTest {
 
 			@Override
 			public void visitEnd() {
-				assertEquals("com/github/rkaippully/jasm/test/gen/ClassAttributesTestGenOuter", outerClass);
+				assertEquals("com/github/rkaippully/jasm/test/gen/ClassAttributesTestOuter", outerClass);
 				assertEquals("enclosingMethod", methodName);
 				assertEquals("V", methodDesc);
 			}
