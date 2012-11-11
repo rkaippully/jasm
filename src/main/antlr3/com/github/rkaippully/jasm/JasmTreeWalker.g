@@ -292,9 +292,9 @@ classAttribute
 				cw.visitInnerClass(name, outerName, innerName, access);
 			}
 		)
-	|	(ENCLOSING_METHOD_DIRECTIVE outerClass=className method=methodName desc=methodDescriptor
+	|	(ENCLOSING_METHOD_DIRECTIVE outerClass=className outerMethod=methodName desc=methodDescriptor
 			{
-				cw.visitOuterClass(outerClass, method, desc);
+				cw.visitOuterClass(outerClass, outerMethod, desc);
 			}
 		)
 	;
