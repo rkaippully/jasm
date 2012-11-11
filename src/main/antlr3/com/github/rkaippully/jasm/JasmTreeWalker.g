@@ -229,6 +229,26 @@ method
 	;
 
 /**
+ * Name of a method
+ */
+methodName returns [String name]
+	:	str=STRING_LITERAL
+	{
+		$name = $str.text;
+	}
+	;
+
+/**
+ * Method descriptor
+ */
+methodDescriptor returns [String desc]
+	:	str=STRING_LITERAL
+	{
+		$desc = $str.text;
+	}
+	;
+
+/**
  * Attributes that can appear in the attributes table of a ClassFile structure.
  */
 classAttributes
@@ -270,6 +290,11 @@ classAttribute
 		 innerName=simpleClassName EQUALS name=className (OF outerName=className)?
 			{
 				cw.visitInnerClass(name, outerName, innerName, access);
+			}
+		)
+	|	(ENCLOSING_METHOD_DIRECTIVE outerClass=className method=methodName desc=methodDescriptor
+			{
+				cw.visitOuterClass(outerClass, method, desc);
 			}
 		)
 	;

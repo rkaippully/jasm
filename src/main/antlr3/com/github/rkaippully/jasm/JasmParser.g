@@ -139,6 +139,20 @@ method
 	;
 
 /**
+ * Name of a method
+ */
+methodName
+	:	STRING_LITERAL
+	;
+
+/**
+ * Method descriptor
+ */
+methodDescriptor
+	:	STRING_LITERAL
+	;
+
+/**
  * Attributes that can appear in the attributes table of a ClassFile structure.
  */
 classAttributes
@@ -152,6 +166,7 @@ classAttribute
 		|	(DEBUG_DIRECTIVE STRING_LITERAL)
 		|	(INNER_CLASS_DIRECTIVE innerClassAccessSpec* className)
 		|	(INNER_CLASS_DIRECTIVE innerClassAccessSpec* simpleClassName EQUALS className (OF className)?)
+		|	(ENCLOSING_METHOD_DIRECTIVE className methodName methodDescriptor)
 	;
 
 /**

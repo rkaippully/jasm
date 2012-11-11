@@ -122,4 +122,27 @@ public class ClassAttributesTest {
 			}
 		}, 0);
 	}
+
+	@Test
+	public void testEnclosingMethod() {
+		reader.accept(new ClassVisitor(ASM4) {
+			private String outerClass;
+			private String methodName;
+			private String methodDesc;
+
+			@Override
+			public void visitOuterClass(String outerClass, String methodName, String methodDesc) {
+				this.outerClass = outerClass;
+				this.methodName = methodName;
+				this.methodDesc = methodDesc;
+			}
+
+			@Override
+			public void visitEnd() {
+				assertEquals("com/github/rkaippully/jasm/test/gen/ClassAttributesTestGenOuter", outerClass);
+				assertEquals("enclosingMethod", methodName);
+				assertEquals("V", methodDesc);
+			}
+		}, 0);
+	}
 }

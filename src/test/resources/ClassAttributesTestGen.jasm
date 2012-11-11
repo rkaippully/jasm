@@ -34,4 +34,6 @@
 
 	/* This is an anonymous inner class */
 	.innerclass  final "com/github/rkaippully/jasm/test/gen/ClassAttributesTestGen$InnerClass3"
+
+	.enclosingmethod "com/github/rkaippully/jasm/test/gen/ClassAttributesTestGenOuter" "enclosingMethod" "V"
 .endattributes

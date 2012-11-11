@@ -246,6 +246,10 @@ INNER_CLASS_DIRECTIVE
 	:	'.innerclass'
 	;
 
+ENCLOSING_METHOD_DIRECTIVE
+	:	'.enclosingmethod'
+	;
+
 IDENTIFIER
     :   IdentifierStart IdentifierPart*
     ;
