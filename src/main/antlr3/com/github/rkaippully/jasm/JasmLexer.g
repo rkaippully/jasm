@@ -32,6 +32,10 @@ WS
     :   ( ' ' | '\t' | '\r' | '\n' )  { skip(); }
     ;
 
+EQUALS
+	:	'='
+	;
+
 INT_LITERAL
     :   DecimalIntLiteral
     |   HexIntLiteral
@@ -134,6 +138,10 @@ STRING_LITERAL
     }
     ;
 
+OF
+	:	'of'
+	;
+
 PUBLIC
 	:	'public'
 	;
@@ -232,6 +240,10 @@ END_ATTRIBUTES_DIRECTIVE
 
 DEBUG_DIRECTIVE
 	:	'.debug'
+	;
+
+INNER_CLASS_DIRECTIVE
+	:	'.innerclass'
 	;
 
 IDENTIFIER

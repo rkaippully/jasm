@@ -19,8 +19,3 @@
 .class public super "com/github/rkaippully/jasm/test/gen/ClassHeaderTestGen"
 .super "java/lang/Object"
 .implements "java/io/Serializable" "java/io/Externalizable"
-
-.attributes
-	.sourcefile "ClassHeaderTestGen.jasm"
-	.debug      "SMAP\n*E\n"
-.endattributes

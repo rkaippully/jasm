@@ -24,7 +24,6 @@ import com.github.rkaippully.jasm.Assembler;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
 
 /**
  * Tests class header level functionality
@@ -61,27 +60,5 @@ public class ClassHeaderTest {
 	public void testInterfaces() {
 		assertArrayEquals(new String[] { "java/io/Serializable",
 				"java/io/Externalizable" }, reader.getInterfaces());
-	}
-
-	@Test
-	public void testSourceFileAndDebug() {
-		reader.accept(new ClassVisitor(ASM4) {
-			private String source;
-			private String debug;
-
-			@Override
-			public void visitSource(String source, String debug) {
-				this.source = source;
-				this.debug = debug;
-			}
-
-			@Override
-			public void visitEnd() {
-				// We need this outside visitSource() because visitSource() may
-				// not get called if source and debug are null
-				assertEquals("ClassHeaderTestGen.jasm", source);
-				assertEquals("SMAP\n*E\n", debug);
-			}
-		}, 0);
 	}
 }

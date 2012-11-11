@@ -84,9 +84,16 @@ classAccessSpec
 	;
 
 /**
- * Name of a class
+ * Fully qualified name of a class
  */
 className
+	:	STRING_LITERAL
+	;
+
+/**
+ * Simple name of a class
+ */
+simpleClassName
 	:	STRING_LITERAL
 	;
 
@@ -136,7 +143,29 @@ method
  */
 classAttributes
 	:	ATTRIBUTES_DIRECTIVE
-		(SOURCE_FILE_DIRECTIVE STRING_LITERAL)?
-		(DEBUG_DIRECTIVE STRING_LITERAL)?
+		classAttribute*
 		END_ATTRIBUTES_DIRECTIVE
+	;
+
+classAttribute
+	:	(SOURCE_FILE_DIRECTIVE STRING_LITERAL)
+		|	(DEBUG_DIRECTIVE STRING_LITERAL)
+		|	(INNER_CLASS_DIRECTIVE innerClassAccessSpec* className)
+		|	(INNER_CLASS_DIRECTIVE innerClassAccessSpec* simpleClassName EQUALS className (OF className)?)
+	;
+
+/**
+ * Access and property modifiers for inner classes
+ */
+innerClassAccessSpec
+	:	PUBLIC
+	|	PRIVATE
+	|	PROTECTED
+	|	STATIC
+	|	FINAL
+	|	INTERFACE
+	|	ABSTRACT
+	|	SYNTHETIC
+	|	ANNOTATION
+	|	ENUM
 	;

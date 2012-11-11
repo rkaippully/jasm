@@ -151,9 +151,19 @@ classAccessSpec returns [int spec]
 	;
 
 /**
- * Name of a class
+ * Fully qualified name of a class
  */
 className returns [String name]
+	:	str=STRING_LITERAL
+	{
+		$name = $str.text;
+	}
+	;
+
+/**
+ * Simple name of a class
+ */
+simpleClassName returns [String name]
 	:	str=STRING_LITERAL
 	{
 		$name = $str.text;
@@ -223,10 +233,59 @@ method
  */
 classAttributes
 	:	ATTRIBUTES_DIRECTIVE
-			(SOURCE_FILE_DIRECTIVE sourceFileName=STRING_LITERAL)?
-			(DEBUG_DIRECTIVE debug=STRING_LITERAL)?
+		classAttribute*
 		END_ATTRIBUTES_DIRECTIVE
-		{
-			cw.visitSource($sourceFileName.text, $debug.text);
-		}
+	;
+
+classAttribute
+	:	(SOURCE_FILE_DIRECTIVE sourceFileName=STRING_LITERAL
+			{   cw.visitSource($sourceFileName.text, null);   }	
+		)
+	|	(DEBUG_DIRECTIVE debug=STRING_LITERAL
+			{   cw.visitSource(null, $debug.text);   }	
+		)
+	|	(INNER_CLASS_DIRECTIVE
+			{
+				int access = 0;
+			}
+		 (a=innerClassAccessSpec
+		 	{
+		 		access |= a;
+			}
+		 )*
+		 name=className
+			{
+				cw.visitInnerClass(name, null, null, access);
+			}
+		)
+	|	(INNER_CLASS_DIRECTIVE
+			{
+				int access = 0;
+			}
+		 (a=innerClassAccessSpec
+		 	{
+		 		access |= a;
+		 	}
+		 )*
+		 innerName=simpleClassName EQUALS name=className (OF outerName=className)?
+			{
+				cw.visitInnerClass(name, outerName, innerName, access);
+			}
+		)
+	;
+
+/**
+ * Access and property modifiers for inner classes
+ */
+innerClassAccessSpec returns [int spec]
+	:	PUBLIC     { $spec = ACC_PUBLIC;     }
+	|	PRIVATE    { $spec = ACC_PRIVATE;    }
+	|	PROTECTED  { $spec = ACC_PROTECTED;  }
+	|	STATIC     { $spec = ACC_STATIC;     }
+	|	FINAL      { $spec = ACC_FINAL;      }
+	|	INTERFACE  { $spec = ACC_INTERFACE;  }
+	|	ABSTRACT   { $spec = ACC_ABSTRACT;   }
+	|	SYNTHETIC  { $spec = ACC_SYNTHETIC;  }
+	|	ANNOTATION { $spec = ACC_ANNOTATION; }
+	|	ENUM       { $spec = ACC_ENUM;       }
 	;
