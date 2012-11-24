@@ -184,4 +184,23 @@ public class ClassAttributesTest {
 			}
 		}, 0);
 	}
+
+	@Test
+	public void testDeprecated() {
+		reader.accept(new ClassVisitor(ASM4) {
+			private boolean deprecated;
+
+			@Override
+			public void visit(int version, int access, String name, String signature,
+		            String superName, String[] interfaces) {
+				if ((access & ACC_DEPRECATED) != 0)
+					this.deprecated = true;
+			}
+
+			@Override
+			public void visitEnd() {
+				assertTrue(deprecated);
+			}
+		}, 0);
+	}
 }

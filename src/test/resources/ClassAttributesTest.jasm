@@ -38,4 +38,5 @@
 	.enclosingmethod "com/github/rkaippully/jasm/test/gen/ClassAttributesTestOuter" "enclosingMethod" "V"
 	.synthetic
 	.signature   "<E:Ljava/lang/Object;>Ljava/lang/Object;"
+	.deprecated
 .endattributes

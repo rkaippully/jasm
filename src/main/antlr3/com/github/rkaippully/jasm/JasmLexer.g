@@ -202,6 +202,10 @@ SIGNATURE_DIRECTIVE
 	:	'.signature'
 	;
 
+DEPRECATED_DIRECTIVE
+	:	'.deprecated'
+	;
+
 OF
 	:	'of'
 	;

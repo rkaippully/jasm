@@ -83,9 +83,12 @@ jasmHeader returns [String className]
 		clazzSpec=classSpec
 		superClassName=superSpec
 		implClassNames=implementsSpec?
-		signature=classAttributes?
+		attrs=classAttributes?
 	{
-		cw.visit(version, $clazzSpec.access, $clazzSpec.className, signature, superClassName, implClassNames);
+		int access = $clazzSpec.access;
+		if ($attrs.deprecated)
+			access |= ACC_DEPRECATED;
+		cw.visit(version, access, $clazzSpec.className, $attrs.signature, superClassName, implClassNames);
 		$className = $clazzSpec.className;
 	}
 	;
@@ -254,18 +257,20 @@ methodDescriptor returns [String desc]
  * Attributes that can appear in the attributes table of a ClassFile structure.
  * Returns the value of signature attribute if found, else null
  */
-classAttributes returns [String signature]
+classAttributes returns [String signature, boolean deprecated]
 	:	ATTRIBUTES_DIRECTIVE
-		(s=classAttribute
+		(attrs=classAttribute
 			{
-				if (s != null)
-					signature = s;
+				if ($attrs.signature != null)
+					$signature = $attrs.signature;
+				else if ($attrs.deprecated)
+					$deprecated = $attrs.deprecated;
 			}
 		)*
 		END_ATTRIBUTES_DIRECTIVE
 	;
 
-classAttribute returns [String signature]
+classAttribute returns [String signature, boolean deprecated]
 	:	SOURCE_FILE_DIRECTIVE sourceFileName=STRING_LITERAL
 			{   cw.visitSource($sourceFileName.text, null);   }	
 	|	DEBUG_DIRECTIVE debug=STRING_LITERAL
@@ -314,7 +319,11 @@ classAttribute returns [String signature]
 			}
 	|	SIGNATURE_DIRECTIVE s=STRING_LITERAL
 			{
-				signature = $s.text;
+				$signature = $s.text;
+			}
+	|	DEPRECATED_DIRECTIVE
+			{
+				$deprecated = true;
 			}
 	;
 
