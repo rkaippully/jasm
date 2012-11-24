@@ -87,14 +87,14 @@ classAccessSpec
  * Fully qualified name of a class
  */
 className
-	:	STRING_LITERAL
+	:	IDENTIFIER (FORWARD_SLASH IDENTIFIER)*
 	;
 
 /**
  * Simple name of a class
  */
 simpleClassName
-	:	STRING_LITERAL
+	:	IDENTIFIER
 	;
 
 /**
@@ -124,7 +124,7 @@ fieldAccessSpec
  * Name of a field
  */
 fieldName
-	:	STRING_LITERAL
+	:	IDENTIFIER
 	;
 
 /**
@@ -142,7 +142,7 @@ method
  * Name of a method
  */
 methodName
-	:	STRING_LITERAL
+	:	IDENTIFIER
 	;
 
 /**

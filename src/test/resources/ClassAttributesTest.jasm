@@ -16,26 +16,26 @@
 
 .classversion 51 0
 
-.class public super "com/github/rkaippully/jasm/test/gen/ClassAttributesTest"
-.super "java/lang/Object"
+.class public super com/github/rkaippully/jasm/test/gen/ClassAttributesTest
+.super java/lang/Object
 
 .attributes
 	.sourcefile  "ClassAttributesTest.jasm"
 	.debug       "SMAP\n*E\n"
 
 	/* This is a regular inner class nested in another class */
-	.innerclass  protected static "InnerClass1" =
-			"com/github/rkaippully/jasm/test/gen/ClassAttributesTest$InnerClass1" of
-			"com/github/rkaippully/jasm/test/gen/ClassAttributesTest"
+	.innerclass  protected static InnerClass1 =
+			com/github/rkaippully/jasm/test/gen/ClassAttributesTest$InnerClass1 of
+			com/github/rkaippully/jasm/test/gen/ClassAttributesTest
 
 	/* This is a local class */
-	.innerclass  final "InnerClass2" =
-			"com/github/rkaippully/jasm/test/gen/ClassAttributesTest$InnerClass2"
+	.innerclass  final InnerClass2 =
+			com/github/rkaippully/jasm/test/gen/ClassAttributesTest$InnerClass2
 
 	/* This is an anonymous inner class */
-	.innerclass  final "com/github/rkaippully/jasm/test/gen/ClassAttributesTest$InnerClass3"
+	.innerclass  final com/github/rkaippully/jasm/test/gen/ClassAttributesTest$InnerClass3
 
-	.enclosingmethod "com/github/rkaippully/jasm/test/gen/ClassAttributesTestOuter" "enclosingMethod" "V"
+	.enclosingmethod com/github/rkaippully/jasm/test/gen/ClassAttributesTestOuter enclosingMethod "V"
 	.synthetic
 	.signature   "<E:Ljava/lang/Object;>Ljava/lang/Object;"
 	.deprecated

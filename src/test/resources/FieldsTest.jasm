@@ -16,7 +16,7 @@
 
 .classversion 51 0
 
-.class public super "com/github/rkaippully/jasm/test/gen/FieldsTest"
-.super "java/lang/Object"
+.class public super com/github/rkaippully/jasm/test/gen/FieldsTest
+.super java/lang/Object
 
-.field private "field1" "[I"
+.field private field1 "[I"

@@ -159,19 +159,24 @@ classAccessSpec returns [int spec]
  * Fully qualified name of a class
  */
 className returns [String name]
-	:	str=STRING_LITERAL
+	:	id=IDENTIFIER
 	{
-		$name = $str.text;
+		$name = $id.text;
 	}
+	(FORWARD_SLASH id=IDENTIFIER
+		{
+			$name += '/' + $id.text;
+		}
+	)*
 	;
 
 /**
  * Simple name of a class
  */
 simpleClassName returns [String name]
-	:	str=STRING_LITERAL
+	:	id=IDENTIFIER
 	{
-		$name = $str.text;
+		$name = $id.text;
 	}
 	;
 
@@ -213,9 +218,9 @@ fieldAccessSpec returns [int spec]
  * Name of a field
  */
 fieldName returns [String name]
-	:	str=STRING_LITERAL
+	:	id=IDENTIFIER
 	{
-		$name = $str.text;
+		$name = $id.text;
 	}
 	;
 
@@ -237,9 +242,9 @@ method
  * Name of a method
  */
 methodName returns [String name]
-	:	str=STRING_LITERAL
+	:	id=IDENTIFIER
 	{
-		$name = $str.text;
+		$name = $id.text;
 	}
 	;
 

@@ -36,6 +36,10 @@ EQUALS
 	:	'='
 	;
 
+FORWARD_SLASH
+	:	'/'
+	;
+
 INT_LITERAL
     :   DecimalIntLiteral
     |   HexIntLiteral
@@ -263,15 +267,5 @@ ENUM
 	;
 
 IDENTIFIER
-    :   IdentifierStart IdentifierPart*
-    ;
-
-fragment
-IdentifierStart
-    :   'a'..'z' | 'A'..'Z' | '\u0080'..'\ufffe' | '_'
-    ;
-
-fragment
-IdentifierPart
-    :   'a'..'z' | 'A'..'Z' | '\u0080'..'\ufffe' | '0'..'9' | '_'
+    :   ~('.' | ';' | '[' | '/' | ' ' | '\t' | '\r' | '\n')+
     ;
