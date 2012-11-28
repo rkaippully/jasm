@@ -170,6 +170,7 @@ classAttribute
 	|	SYNTHETIC_DIRECTIVE
 	|	SIGNATURE_DIRECTIVE STRING_LITERAL
 	|	DEPRECATED_DIRECTIVE
+	|	ANNOTATION_DIRECTIVE INVISIBLE? annotation
 	;
 
 /**
@@ -186,4 +187,39 @@ innerClassAccessSpec
 	|	SYNTHETIC
 	|	ANNOTATION
 	|	ENUM
+	;
+
+annotation
+	:	className (LEFT_PARENTHESIS annotationNameValuePairs RIGHT_PARENTHESIS)?
+	;
+
+/**
+ * Name value pairs used in annotations
+ */
+annotationNameValuePairs
+	:	annotationNameValuePair (COMMA annotationNameValuePair)*
+	;
+
+annotationNameValuePair
+	:	IDENTIFIER EQUALS annotationElementValue
+	;
+
+annotationElementValue
+	:	BYTE INT_LITERAL
+	|	CHAR_LITERAL
+	|	DOUBLE FLOAT_LITERAL
+	|	FLOAT FLOAT_LITERAL
+	|	INT INT_LITERAL
+	|	LONG INT_LITERAL
+	|	SHORT INT_LITERAL
+	|	BOOLEAN_LITERAL
+	|	STRING_LITERAL
+	|	ENUM className fieldName
+	|	className
+	|	ANNOTATION annotation
+	|	LEFT_SQUARE_BRACKET annotationElementValues RIGHT_SQUARE_BRACKET
+	;
+
+annotationElementValues
+	:	annotationElementValue (COMMA annotationElementValue)*
 	;

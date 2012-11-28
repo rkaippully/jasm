@@ -40,6 +40,26 @@ FORWARD_SLASH
 	:	'/'
 	;
 
+COMMA
+	:	','
+	;
+
+LEFT_SQUARE_BRACKET
+	:	'['
+	;
+
+RIGHT_SQUARE_BRACKET
+	:	']'
+	;
+
+LEFT_PARENTHESIS
+	:	'('
+	;
+
+RIGHT_PARENTHESIS
+	:	')'
+	;
+
 INT_LITERAL
     :   DecimalIntLiteral
     |   HexIntLiteral
@@ -210,6 +230,10 @@ DEPRECATED_DIRECTIVE
 	:	'.deprecated'
 	;
 
+ANNOTATION_DIRECTIVE
+	:	'.annotation'
+	;
+
 OF
 	:	'of'
 	;
@@ -259,13 +283,53 @@ SYNTHETIC
 	;
 
 ANNOTATION
-	:	'annotation'
+	:	'@interface'
 	;
 
 ENUM
 	:	'enum'
 	;
 
+INVISIBLE
+	:	'invisible'
+	;
+
+BYTE
+	:	'byte'
+	;
+
+CHAR
+	:	'char'
+	;
+
+DOUBLE
+	:	'double'
+	;
+
+FLOAT
+	:	'float'
+	;
+
+INT
+	:	'int'
+	;
+
+LONG
+	:	'long'
+	;
+
+SHORT
+	:	'short'
+	;
+
+BOOLEAN
+	:	'boolean'
+	;
+
+STRING
+	:	'string'
+	;
+
 IDENTIFIER
-    :   ~('.' | ';' | '[' | '/' | ' ' | '\t' | '\r' | '\n')+
+    :   ~('.' | ';' | '[' | ']' | '/' | '(' | ')' | '=' | '\'' | '"' | ' ' | '\t' | '\r' | '\n')+
     ;

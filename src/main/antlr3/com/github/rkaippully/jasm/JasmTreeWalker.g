@@ -32,11 +32,13 @@ import java.io.IOException;
 import java.io.FileOutputStream;
 import java.lang.reflect.Method;
 
+import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Attribute;
 import org.objectweb.asm.ByteVector;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Type;
 }
 
 @members {
@@ -330,6 +332,16 @@ classAttribute returns [String signature, boolean deprecated]
 			{
 				$deprecated = true;
 			}
+	|	ANNOTATION_DIRECTIVE
+			{
+				boolean visible=true;
+			}
+		(INVISIBLE
+			{
+				visible = false;
+			}
+		)?
+		annotation[visible, null, null]
 	;
 
 /**
@@ -346,4 +358,90 @@ innerClassAccessSpec returns [int spec]
 	|	SYNTHETIC  { $spec = ACC_SYNTHETIC;  }
 	|	ANNOTATION { $spec = ACC_ANNOTATION; }
 	|	ENUM       { $spec = ACC_ENUM;       }
+	;
+
+annotation[boolean visible, AnnotationVisitor av, String name]
+	:	clazz=className
+		{
+			if (av != null && name != null)
+				av = av.visitAnnotation(name, clazz);
+			else
+				av = cw.visitAnnotation(clazz, visible);
+		}
+	(LEFT_PARENTHESIS annotationNameValuePairs[av] RIGHT_PARENTHESIS)?
+		{
+			av.visitEnd();
+		}
+	;
+
+/**
+ * Name value pairs used in annotations
+ */
+annotationNameValuePairs[AnnotationVisitor av]
+	:	annotationNameValuePair[av] (COMMA annotationNameValuePair[av])*
+	;
+
+annotationNameValuePair[AnnotationVisitor av]
+	:	id=IDENTIFIER EQUALS annotationElementValue[$id.text, av]
+	;
+
+annotationElementValue[String name, AnnotationVisitor av]
+	:	BYTE val=INT_LITERAL
+			{
+				av.visit(name, Byte.parseByte($val.text));
+			}
+	|	val=CHAR_LITERAL
+			{
+				av.visit(name, $val.text.charAt(0));
+			}
+	|	DOUBLE val=FLOAT_LITERAL
+			{
+				av.visit(name, Double.parseDouble($val.text));
+			}
+	|	FLOAT val=FLOAT_LITERAL
+			{
+				av.visit(name, Float.parseFloat($val.text));
+			}
+	|	INT val=INT_LITERAL
+			{
+				av.visit(name, Integer.parseInt($val.text));
+			}
+	|	LONG val=INT_LITERAL
+			{
+				av.visit(name, Long.parseLong($val.text));
+			}
+	|	SHORT val=INT_LITERAL
+			{
+				av.visit(name, Short.parseShort($val.text));
+			}
+	|	val=BOOLEAN_LITERAL
+			{
+				av.visit(name, Boolean.parseBoolean($val.text));
+			}
+	|	val=STRING_LITERAL
+			{
+				av.visit(name, $val.text);
+			}
+	|	ENUM desc=className field=fieldName
+			{
+				av.visitEnum(name, desc, field);
+			}
+	|	clazz=className
+			{
+				av.visit(name, Type.getType('L' + clazz + ';'));
+			}
+	|	ANNOTATION annotation[false, av, name]
+	|	LEFT_SQUARE_BRACKET
+			{
+				AnnotationVisitor newAv = av.visitArray(name);
+			}
+		annotationElementValues[newAv]
+		RIGHT_SQUARE_BRACKET
+			{
+				newAv.visitEnd();
+			}
+	;
+
+annotationElementValues[AnnotationVisitor av]
+	:	annotationElementValue[null, av] (COMMA annotationElementValue[null, av])*
 	;
