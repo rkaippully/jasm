@@ -422,9 +422,9 @@ annotationElementValue[String name, AnnotationVisitor av]
 			{
 				av.visit(name, $val.text);
 			}
-	|	ENUM desc=className field=fieldName
+	|	ENUM desc=className fld=fieldName
 			{
-				av.visitEnum(name, desc, field);
+				av.visitEnum(name, desc, fld);
 			}
 	|	clazz=className
 			{
